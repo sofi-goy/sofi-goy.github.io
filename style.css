@@ -1,0 +1,52 @@
+html {
+	background-color: #181228;
+}
+
+#sketch {
+	position: absolute;
+	top: 48%;
+ 	left: 50%;
+ 	transform: translate(-50%, -50%);
+}
+
+#canvas {
+	width: 800px;
+	height: 800px;
+	display: block;
+	margin: auto auto;
+	border-radius: 1px;
+	border: 2px solid blue;
+}
+
+#controls {
+	box-sizing: border-box;
+	display: block;
+	margin: auto auto;
+	background-color: #464646;
+	width: 804px;
+	padding: 5px;
+	border-radius: 3px;
+}
+
+#controls div {
+	display: inline-block;
+	margin: 1px auto;
+	width: 45%;
+	padding: 3px;
+}
+
+input {
+	padding: 1px 5px;
+	background-color: black;
+	color: #80f0ff;	margin: 0 auto;
+	width: 50%;
+	text-align: center;
+}
+
+p{
+	width: 40%;
+	text-align: center;
+	display: inline-block;
+	margin: 1px 5px;
+	color: white;
+}
