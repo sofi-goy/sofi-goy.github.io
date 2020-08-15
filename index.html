@@ -2,10 +2,24 @@
 <html>
 <head>
 	<title>Campos Vectoriales</title>
+	<link rel="stylesheet" href="style.css" type="text/css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
     <script type="text/javascript" src="vectorial.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.1.0/math.min.js" integrity="sha512-rCvDXOM8HOkDDjC0l9vQPhUg2n0rKlcsCtDjWG0ajYmVfjgtO6egt/RdSbKSzFCIUaE/OQRwmiU/4PmOeK3J+Q==" crossorigin="anonymous"></script>
 </head>
-<body></body>
+<body>
+	<div id="sketch">
+		<div id="canvas"></div>
+		<div id="controls">
+			<div id="campo">
+				<p>Vel_x(x,y)   = </p><input type="text" id="campoX" value="y^2">
+				<p>Vel_y(x,y)   = </p><input type="text" id="campoY" value="-x^2">
+			</div>
+			<div id="animation">
+				<p>Delta:</p><input type="text" id="delta" value="0.0001">
+			</div>
+		</div>
+	</div>
+</body>
 </html>

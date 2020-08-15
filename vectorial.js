@@ -1,4 +1,4 @@
-var MAX_PARTICLES = 5000;
+const MAX_PARTICLES = 5000;
 var delta = 0.0001;
 let particles = [];
 var newx_input, newy_input, delta_input, max_part_input;
@@ -30,7 +30,6 @@ function updateCampo(){
   campoX = math.compile(newx_input.value());
   campoY = math.compile(newy_input.value());
   delta  = float(delta_input.value());
-  MAX_PARTICLES = float(max_part_input.value());
 }
 
 function checkBoundaries(point){
@@ -55,17 +54,14 @@ function update(point){
 
 function setup(){
   let x,y;
-  createCanvas(800,800);
-  var script = createElement("script");
-  script.attribute("src", "math.js");
-  newx_input = createInput("y^2");
-  newy_input = createInput("-x^2");
-  delta_input = createInput(str(delta));
-  max_part_input = createInput(str(MAX_PARTICLES));
+  var myCanvas = createCanvas(800,800);
+  myCanvas.parent("canvas");
+  newx_input = select("#campoX");
+  newy_input = select("#campoY");
+  delta_input = select("#delta");
   newx_input.changed(updateCampo);
   newy_input.changed(updateCampo);
   delta_input.changed(updateCampo);
-  max_part_input.changed(updateCampo);
   updateCampo();
 
   for(let i=0; i<MAX_PARTICLES; i++){
@@ -75,7 +71,7 @@ function setup(){
 function draw(){
   var part;
   background(0);
-  stroke(124,243,255);
+  stroke(128,240,255);
   translate(width/2, height/2);
   for(let i=0; i<MAX_PARTICLES; i++){
     part = particles[i];
