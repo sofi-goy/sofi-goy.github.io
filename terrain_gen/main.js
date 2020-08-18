@@ -6,11 +6,13 @@ var h = 800;
 var rows = h/size;
 var cols = w/size;
 var t = 0;
-var wireframe_on;
+var wireframe_on, wire_input;
 
 function setup(){
 	myCanvas = createCanvas(800,800,WEBGL);
 	myCanvas.parent("#canvas");
+	wire_input = select("#wireframe");
+	
 
 	for(let i=0; i<rows; i++){
 		trigs.push([]);
@@ -28,8 +30,10 @@ function drawTrig(a,b,c){
 	var normal = p5.Vector.cross(p,q).normalize();
 	var bright = abs(p5.Vector.dot(light, normal))*255 - 70;
 	fill(10+normal.y*255,bright/2,bright);
-	// stroke(0);
-	noStroke();
+	if (wireframe_on)
+		stroke(0);
+	else
+		noStroke();
 	beginShape(TRIANGLES);
 	vertex(a.x, a.y, a.z);
 	vertex(b.x, b.y, b.z);
@@ -43,6 +47,8 @@ function draw(){
 	rotateX(PI/3);
 	translate(0,200);
 	t -= 0.05;
+	wireframe_on = wire_input.checked();
+
  	for(let i=0; i<rows; i++){
 		for(let j=0; j<cols;j++){
 			trigs[i][j].z = 300*noise(i/20+t,j/20);
