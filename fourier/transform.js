@@ -7,8 +7,10 @@ let path_y = [];
 let slider;
 
 function setup() {
-	createCanvas(800, 800);
+	var myCanvas = createCanvas(800, 800);
 	slider = createSlider(1,10,1);
+	myCanvas.parent("#canvas");
+	slider.parent("#sketch");
 	
 	for(let i=0; i<drawing.length; i++){
 		vals_x[i] = drawing[i].x;
