@@ -1,70 +1,106 @@
-let time = 0;
-let vals_x = [];
-let vals_y = [];
-let path_x = [];
-let path_y = [];
+var time = 0;
+var vals_x = [];
+var vals_y = [];
+var path_x = [];
+var path_y = [];
 
-let slider;
+var size_slider;
+
+function discrete_fourier(x, y) {
+	const N = x.length;
+	var X = [];
+	for (var i = 0; i < N; i++) {
+		var re = 0;
+		var im = 0;
+		for (var j = 0; j < N; j++) {
+			var phi = (TWO_PI * i * j) / N;
+			re += x[j] * cos(phi) + y[j] * sin(phi);
+			im += y[j] * cos(phi) - x[j] * sin(phi);
+		}
+		re /= N;
+		im /= N;
+
+		freq = i;
+		ampl = sqrt(re * re + im * im);
+		phase = atan2(im, re);
+
+		X[i] = { re, im, freq, ampl, phase };
+	}
+
+	return X;
+}
 
 function setup() {
 	var myCanvas = createCanvas(800, 800);
-	slider = createSlider(1,10,1);
 	myCanvas.parent("#canvas");
-	slider.parent("#sketch");
-	
-	for(let i=0; i<drawing.length; i++){
-		vals_x[i] = drawing[i].x;
-		vals_y[i] = drawing[i].y;
+	size_slider = select("#size");
+
+	smooth();
+
+	for (var i = 0; i < pi.length; i++) {
+		vals_x[i] = pi[i][0];
+		vals_y[i] = pi[i][1];
 	}
-	fourierY = dft(vals_x, vals_y);
-	fourierY.sort((a,b) => b.ampl - a.ampl);
+	console.log(vals_x);
+	fourier_coef = discrete_fourier(vals_x, vals_y);
+	fourier_coef.sort((a, b) => b.ampl - a.ampl);
+}
+
+function arrow(x1, y1, x2, y2) {
+	strokeWeight(2);
+	line(x1, y1, x2, y2);
 }
 
 function draw() {
 	background(0);
-	translate(width/2, height/2);
-	
-	let x = 0;
-	let y = 0;
+	translate(width / 2, height / 2);
 
-	for (let n=1; n < fourierY.length; n++){
-		let prevx = x;
-		let prevy = y;
+	var x = 0;
+	var y = 0;
 
-		let freq = fourierY[n].freq;
-		let ampl = fourierY[n].ampl;
-		let phase = fourierY[n].phase;
-		let radius = ampl * slider.value();
-		let angle = freq*time+phase;
+	for (var n = 1; n < fourier_coef.length; n++) {
+		var prevx = x;
+		var prevy = y;
 
-		if (radius > 0){
-			stroke(255, 100);
-			noFill();
-			ellipse(prevx, prevy, radius*2);
+		var freq = fourier_coef[n].freq;
+		var ampl = fourier_coef[n].ampl;
+		var phase = fourier_coef[n].phase;
 
-			x += radius*cos(angle);
-			y += radius*sin(angle);
+		var radius = ampl * size_slider.value();
+		var angle = freq * time + phase;
+
+		if (ampl < 0.01)
+			break;
 		
-			stroke(255, 120);
-			line(prevx, prevy, x, y);
-		}
+		stroke(255, 100);
+		noFill();
+		strokeWeight(1);
+		ellipse(prevx, prevy, radius * 2);
+
+		x += radius * cos(angle);
+		y += radius * sin(angle);
+
+		stroke(255, 120);
+		arrow(prevx, prevy, x, y);
+
 	}
 	path_x.unshift(x);
 	path_y.unshift(y);
 
-	if (path_x.length>1000){
+	if (path_x.length > 1000) {
 		path_x.pop();
 		path_y.pop();
 	}
 
-	stroke(0,255,0);
+	stroke(0, 255, 0);
+	strokeWeight(1);
 	beginShape();
 	noFill();
-	for (let i = 0; i < vals_x.length; i++){
+	for (var i = 0; i < vals_x.length; i++) {
 		vertex(path_x[i], path_y[i]);
 	}
 	endShape();
 
-	let dt = TWO_PI / fourierY.length;
+	var dt = TWO_PI / fourier_coef.length;
 	time += dt;
 }
