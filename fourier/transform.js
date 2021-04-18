@@ -92,8 +92,8 @@ function draw() {
 		path_y.pop();
 	}
 
-	stroke(0, 255, 0);
-	strokeWeight(1);
+	stroke(128, 240, 255);
+	strokeWeight(2);
 	beginShape();
 	noFill();
 	for (var i = 0; i < vals_x.length; i++) {
