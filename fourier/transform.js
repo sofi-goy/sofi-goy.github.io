@@ -3,6 +3,9 @@ var vals_x = [];
 var vals_y = [];
 var path_x = [];
 var path_y = [];
+var dt;
+var drawing = [[0,0]];
+var fourier_coef = [];
 
 var size_slider;
 
@@ -30,23 +33,43 @@ function discrete_fourier(x, y) {
 	return X;
 }
 
-function setup() {
-	var myCanvas = createCanvas(800, 800);
-	myCanvas.parent("#canvas");
-	size_slider = select("#size");
+async function readFile(filename) {
+	let response = await fetch(filename);
+		
+	if(response.status != 200) {
+		throw new Error("Server Error");
+	}
+		
+	// read response stream as text
+	text_data = await response.text();
+	return generatePointsFromSvg(text_data);
+}
 
-	smooth();
-
-	for (var i = 0; i < pi.length; i++) {
-		vals_x[i] = pi[i][0];
-		vals_y[i] = pi[i][1];
+function loadDrawing(filename) {
+	//drawing = readFile(filename);
+	drawing = santos;
+	for (var i = 0; i < drawing.length; i++) {
+		vals_x[i] = drawing[i][0];
+		vals_y[i] = drawing[i][1];
 	}
 	console.log(vals_x);
 	fourier_coef = discrete_fourier(vals_x, vals_y);
 	fourier_coef.sort((a, b) => b.ampl - a.ampl);
 }
 
+function setup() {
+	var myCanvas = createCanvas(800, 800);
+	myCanvas.parent("#canvas");
+	size_slider = select("#size");
+
+	smooth();
+	loadDrawing("./pi.svg");
+
+	dt = TWO_PI / fourier_coef.length;
+}
+
 function arrow(x1, y1, x2, y2) {
+	stroke(255, 120);
 	strokeWeight(2);
 	line(x1, y1, x2, y2);
 }
@@ -69,25 +92,23 @@ function draw() {
 		var radius = ampl * size_slider.value();
 		var angle = freq * time + phase;
 
-		if (ampl < 0.01)
+		if (ampl < 0.02)
 			break;
-		
+
+		x += radius * cos(angle);
+		y += radius * sin(angle);
+
 		stroke(255, 100);
 		noFill();
 		strokeWeight(1);
 		ellipse(prevx, prevy, radius * 2);
 
-		x += radius * cos(angle);
-		y += radius * sin(angle);
-
-		stroke(255, 120);
 		arrow(prevx, prevy, x, y);
-
 	}
 	path_x.unshift(x);
 	path_y.unshift(y);
 
-	if (path_x.length > 1000) {
+	if (path_x.length > vals_x.length * 19 / 20) {
 		path_x.pop();
 		path_y.pop();
 	}
@@ -101,6 +122,5 @@ function draw() {
 	}
 	endShape();
 
-	var dt = TWO_PI / fourier_coef.length;
 	time += dt;
 }
