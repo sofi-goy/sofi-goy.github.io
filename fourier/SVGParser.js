@@ -4,7 +4,6 @@ function generatePointsFromSvg(current_svg_xml) {
     var parser = new DOMParser();
     var doc = parser.parseFromString(current_svg_xml, "application/xml");
     var paths = doc.getElementsByTagName("path");
-    // console.log(paths);
 
     // Read each paths from svg
     all_points = [];
@@ -19,6 +18,5 @@ function generatePointsFromSvg(current_svg_xml) {
             all_points.push([point.x, point.y]);
         }
     }
-
     return all_points;
 }

@@ -4,7 +4,7 @@ var vals_y = [];
 var path_x = [];
 var path_y = [];
 var dt;
-var drawing = [[0,0]];
+var drawing = [[0, 0]];
 var fourier_coef = [];
 
 var size_slider;
@@ -35,19 +35,19 @@ function discrete_fourier(x, y) {
 
 async function readFile(filename) {
 	let response = await fetch(filename);
-		
-	if(response.status != 200) {
+
+	if (response.status != 200) {
 		throw new Error("Server Error");
 	}
-		
+
 	// read response stream as text
 	text_data = await response.text();
-	return generatePointsFromSvg(text_data);
+	return text_data;
 }
 
-function loadDrawing(filename) {
-	//drawing = readFile(filename);
-	drawing = santos;
+function loadDrawing(drawing) {
+	console.log(drawing);
+	// drawing = santos;
 	for (var i = 0; i < drawing.length; i++) {
 		vals_x[i] = drawing[i][0];
 		vals_y[i] = drawing[i][1];
@@ -55,6 +55,7 @@ function loadDrawing(filename) {
 	console.log(vals_x);
 	fourier_coef = discrete_fourier(vals_x, vals_y);
 	fourier_coef.sort((a, b) => b.ampl - a.ampl);
+	dt = TWO_PI / fourier_coef.length;
 }
 
 function setup() {
@@ -63,9 +64,12 @@ function setup() {
 	size_slider = select("#size");
 
 	smooth();
-	loadDrawing("./pi.svg");
+	drawing = [[0, 0]];
+	loadDrawing(drawing);
 
-	dt = TWO_PI / fourier_coef.length;
+	filename = "pi.svg";
+	text_data = readFile(filename).then(data => { loadDrawing(generatePointsFromSvg(data)) });
+
 }
 
 function arrow(x1, y1, x2, y2) {
