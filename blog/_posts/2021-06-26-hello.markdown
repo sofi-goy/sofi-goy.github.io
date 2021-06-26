@@ -1,4 +1,10 @@
-# Hello World from Markdown
+---
+layout: post
+title:  "Hola Mundo"
+date:   2021-06-26 10:35:52 -0300
+categories: singularity
+---
+# Hola Mundo desde Markdown
 
 Hola a todes, me presento, soy Sofi. Soy estudiante de matemática, en la UBA.
 
