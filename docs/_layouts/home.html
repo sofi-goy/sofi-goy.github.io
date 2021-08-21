@@ -1,0 +1,73 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- if page.title -%}
+  <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  {{ content }}
+  <h2 class="post-list-heading">Mis Animaciones</h2>
+  <ul class="post-list">
+    <li>
+      <h3>
+        <a class="post-link" href="fourier/index.html">
+          Dibujo con transformada de Fourier
+        </a>
+      </h3>
+      <p>¿Cómo surge el orden del caos? En esta animación, vemos cientos de flechitas
+        que realizan un movimiento simple: una rotación a una frecuencia fija. Pero, al combinar sus
+        movimientos, pueden dar vida a una simpática criatura.</p>
+    </li>
+    <li>
+      <h3>
+        <a class="post-link" href="vectorial/index.html">
+          Campos Vectoriales
+        </a>
+      </h3>
+      <p>Un campo vectorial es una función que, a cada punto de un espacio, le asigna un
+        vector. Esto sirve para describir, por ejemplo, fluidos, donde a cada particula le asignamos una
+        velocidad, dependiendo de su posición. </p>
+      <p>
+        Este visualizador permite introducir distintas fórmulas para la velocidad de estas particulas,
+        con fin de entender mejor estas funciones. Se pueden utilizar las operaciones básicas y funciones conocidas:
+        <i>exp(), log(), sin(), cos(),</i> etc.
+      </p>
+    </li>
+    <li>
+      <h3>
+        <a class="post-link" href="terrain_gen/index.html">
+          Generador de Terreno
+        </a>
+      </h3>
+      <p>
+        Exploración sobre generación aleatoria, cómo se triangulan objetos 3D y cómo se
+        iluminan.
+      </p>
+    </li>
+  </ul>
+
+  {%- if site.posts.size > 0 -%}
+  <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
+  <ul class="post-list">
+    {%- for post in site.posts -%}
+    <li>
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      <span class="post-meta">{{ post.date | date: date_format }}</span>
+      <h3>
+        <a class="post-link" href="{{ post.url | relative_url }}">
+          {{ post.title | escape }}
+        </a>
+      </h3>
+      {%- if site.show_excerpts -%}
+      {{ post.excerpt }}
+      {%- endif -%}
+    </li>
+    {%- endfor -%}
+  </ul>
+
+  <!-- <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p> -->
+  {%- endif -%}
+
+</div>
