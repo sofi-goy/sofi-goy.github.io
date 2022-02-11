@@ -10,11 +10,24 @@ function distribution(min, max) {
 	return random(min, max);
 }
 
+// Standard Normal variate using Box-Muller transform.
+// https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
+function randn_bm() {
+    var u = 0, v = 0;
+    while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
+    while(v === 0) v = Math.random();
+    return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+}
+
 //Devuelve vector aleatorio, usando distribution 1D
-function randVector() {
+function randParticula() {
 	var x = distribution(-width / 2, width / 2);
 	var y = distribution(-height / 2, height / 2);
-	return new p5.Vector(x, y);
+	var lifetime = randn_bm() * 20 + 50;
+	return {
+		pos: new p5.Vector(x,y),
+		lifetime: lifetime
+	};
 }
 
 //Evalua el campo vectorial en un punto
@@ -36,26 +49,22 @@ function updateCampo() {
 	delta = float(delta_input.value());
 }
 
-//Controla que las particulas no se alejen mucho de la zona visible
-function checkBoundaries(point) {
-	if (point.mag() > max_magnitude)
-		return randVector();
-
-	return point;
-}
-
 //Aplicar movimiento a una particula
-function update(point) {
-	var velocidad = campoVect(point);
+function update(particula) {
+	var velocidad = campoVect(particula.pos);
 	velocidad.mult(delta);
-	point.add(velocidad);
-	point = checkBoundaries(point);
-	return point;
+	particula.pos.add(velocidad);
+	particula.lifetime -= 1;
+
+	if (particula.lifetime <= 0)
+		particula = randParticula();
+	
+	return particula;
 }
 
 function setParticles() {
 	for (var i = 0; i < MAX_PARTICLES; i++) {
-		particles[i] = randVector();
+		particles[i] = randParticula();
 	}
 }
 
@@ -92,6 +101,6 @@ function draw() {
 
 	for (var i = 0; i < MAX_PARTICLES; i++) {
 		particles[i] = update(particles[i]);
-		point(particles[i].x, particles[i].y);
+		point(particles[i].pos.x, particles[i].pos.y);
 	}
 }
