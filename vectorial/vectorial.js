@@ -21,9 +21,9 @@ function randn_bm() {
 
 //Devuelve vector aleatorio, usando distribution 1D
 function randParticula() {
-	var x = distribution(-width / 2, width / 2);
-	var y = distribution(-height / 2, height / 2);
-	var lifetime = randn_bm() * 20 + 50;
+	var x = distribution(-width * 5 / 8, width * 5 / 8);
+	var y = distribution(-height * 5 / 8, height * 5 / 8);
+	var lifetime = randn_bm() + 3;
 	return {
 		pos: new p5.Vector(x,y),
 		lifetime: lifetime
@@ -49,16 +49,23 @@ function updateCampo() {
 	delta = float(delta_input.value());
 }
 
+//Controla que las particulas no se alejen mucho de la zona visible
+//y que tampoco vivan infinitamente
+function checkBoundaries(particula) {
+	if (particula.pos.mag() > max_magnitude || particula.lifetime <= 0)
+		return randParticula();
+
+	return particula;
+}
+
 //Aplicar movimiento a una particula
 function update(particula) {
 	var velocidad = campoVect(particula.pos);
 	velocidad.mult(delta);
 	particula.pos.add(velocidad);
-	particula.lifetime -= 1;
+	particula.lifetime -= delta * 8;
+	particula = checkBoundaries(particula)
 
-	if (particula.lifetime <= 0)
-		particula = randParticula();
-	
 	return particula;
 }
 
@@ -89,7 +96,7 @@ function setup() {
 	updateCampo();
 	setParticles();
 
-	max_magnitude = new p5.Vector(width, height).mag();
+	max_magnitude = new p5.Vector(width, height).mag() * 9 /8;
 }
 
 function draw() {
