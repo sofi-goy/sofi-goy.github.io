@@ -53,31 +53,44 @@ layout: default
         </a>
       </h3>
       <p>
-         ¿Cómo conectar dos puntos del espacio a través de curvas suaves? Las curvas de Bézier están por todas partes a la hora de animar cosas, ya sea en películas o juegos.
+        ¿Cómo conectar dos puntos del espacio a través de curvas suaves? Las curvas de Bézier están por todas partes a
+        la hora de animar cosas, ya sea en películas o juegos.
       </p>
     </li>
   </ul>
 
-  {%- if site.posts.size > 0 -%}
-  <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
+  <h2 class="post-list-heading">Flasheadas</h2>
   <ul class="post-list">
-    {%- for post in site.posts -%}
     <li>
-      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-      <span class="post-meta">{{ post.date | date: date_format }}</span>
       <h3>
-        <a class="post-link" href="{{ post.url | relative_url }}">
-          {{ post.title | escape }}
+        <a class="post-link" href="camera/index.html">
+          Aventuras con la Cámara
         </a>
       </h3>
-      {%- if site.show_excerpts -%}
-      {{ post.excerpt }}
-      {%- endif -%}
+      <p>Distorsioná tu imagen el tiempo con este juego inspirado en el Estudio del Centro Cultural de la Ciencia!</p>
     </li>
-    {%- endfor -%}
   </ul>
 
-  <!-- <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p> -->
-  {%- endif -%}
+    {%- if site.posts.size > 0 -%}
+    <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
+    <ul class="post-list">
+      {%- for post in site.posts -%}
+      <li>
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        <span class="post-meta">{{ post.date | date: date_format }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        {%- if site.show_excerpts -%}
+        {{ post.excerpt }}
+        {%- endif -%}
+      </li>
+      {%- endfor -%}
+    </ul>
+
+    <!-- <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p> -->
+    {%- endif -%}
 
 </div>
