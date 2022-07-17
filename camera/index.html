@@ -11,14 +11,15 @@
 
 <body>
 	<div id="sketch">
-		<div id="canvas" width="640" height="480">
-            <video id="webcam" autoplay playsinline width="640" height="480"></video>
-			<canvas id="filtered" width="640" height="480"></canvas>
+		<div id="canvas" style="padding: 20px;">
+            <video id="webcam" autoplay style="display: none;"></video>
+			<canvas id="filtered" width="640" height="480" style="transform: scale(-1,1);"></canvas>
         </div>
 		<div id="controls" class="container-fluid">
 			<div class="row">
-				<div class="col-8">
-					Controles
+				<div class="col-12">
+					<label>Tamaño de franja: </label><input id="chunk-slider" type="range" min="1" max="10" step="1">
+					<button id="fullscreen-btn" class="btn btn-dark h-90 w-100">Pantalla Completa</button>
 				</div>
 			</div>
 		</div>
