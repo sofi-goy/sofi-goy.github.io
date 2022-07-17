@@ -1,15 +1,33 @@
 var chunk = 5;
 const chunkSlider = document.getElementById('chunk-slider');
 
+const franjas = document.getElementById('franjas');
 const video = document.getElementById('webcam');
 const canvas = document.getElementById('filtered');
 const ctx = canvas.getContext('2d');
 
 function newMemory() {
-    return new FrameMemory(video.videoWidth, video.videoHeight, Math.floor(video.videoHeight / chunk));
+    return new FrameMemory(video.videoWidth, video.videoHeight, 2000);
 }
 
 var memory = newMemory();
+
+function pastDepth(x,y,tipoFranja) {
+    if (tipoFranja == "Horizontal")
+    return Math.floor(y / chunk);
+    
+    if (tipoFranja == "Vertical")
+        return Math.floor(x / chunk);
+        
+        if (tipoFranja == "Radial"){
+            var newX = x - video.videoWidth / 2;
+            var newY = y - video.videoHeight / 2;
+            var dist = Math.sqrt(newX * newX + newY * newY);
+            return Math.floor(dist / chunk);
+    }
+    
+    return 0;
+}
 
 function computeFrame() {
     // Get data from video element
@@ -17,13 +35,15 @@ function computeFrame() {
     var data = ctx.getImageData(0, 0, video.videoWidth, video.videoHeight);
     var frame = new Frame(video.videoWidth, video.videoHeight);
     frame.setData(data.data);
-
+    
     memory.pushPresent(frame);
     var newFrame = new Frame(video.videoWidth, video.videoHeight);
+    var tipoFranja = franjas.value
 
     for (var y = 0; y < newFrame.height; y++) {
         for (var x = 0; x < newFrame.width; x++) {
-            var pixel = memory.getPixelFromPast(newFrame.width - x, y, Math.floor(y / chunk));
+            var newX = newFrame.width - x;
+            var pixel = memory.getPixelFromPast(newX, y, pastDepth(x,y,tipoFranja));
             newFrame.setPixel(x, y, pixel);
         }
     }
@@ -41,7 +61,7 @@ function timerCallback() {
     computeFrame();
     setTimeout(function () {
         self.timerCallback();
-    }, 1); // roughly 40 frames per second
+    }, 1);
 }
 
 function fullscreen() {
@@ -56,7 +76,6 @@ function fullscreen() {
 function newChunk() {
     chunk = chunkSlider.value;
     memory = newMemory();
-    console.log("Changed chunk", chunk);
 }
 
 function setUp() {
@@ -74,9 +93,9 @@ function setUp() {
 
     /* Making controls functional */
     var fullbtn = document.getElementById('fullscreen-btn');
+
     fullbtn.addEventListener("click", fullscreen);
     chunkSlider.addEventListener("input", newChunk);
-
 }
 
 setUp();
