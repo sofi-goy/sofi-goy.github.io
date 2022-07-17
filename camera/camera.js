@@ -23,7 +23,7 @@ function computeFrame() {
 
     for (var y = 0; y < newFrame.height; y++) {
         for (var x = 0; x < newFrame.width; x++) {
-            var pixel = memory.getPixelFromPast(x, y, Math.floor(y / chunk));
+            var pixel = memory.getPixelFromPast(newFrame.width - x, y, Math.floor(y / chunk));
             newFrame.setPixel(x, y, pixel);
         }
     }
