@@ -1,0 +1,78 @@
+body {
+    background-image: url('../img/cherry-3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Comic Sans', sans-serif;
+}
+
+#sketch {
+    background-color: #f6eee3;
+    width: 90%;
+    margin: 40px auto;
+    padding: 5px;
+    border: 2px dashed #d9bda5;
+}
+
+#sketch-shadow {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.9;
+    z-index: 2;
+}
+
+/* Pantallas grandes */
+@media screen and (min-width: 992px) {
+    #sketch {
+        width: 70%;
+    }
+}
+
+#canvas {
+    width: 100%;
+}
+
+canvas {
+    display: block;
+    margin: 20px auto;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#side-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    max-width: 50%;
+    z-index: 3;
+}
+
+#handle {
+    cursor: pointer;
+    width: 100px;
+}
+
+#descripcion {
+    flex: 1;
+    display: none;
+    padding: 10px;
+    border: 2px dashed #d9bda5;
+    background-color: #f6eee3;
+}
+

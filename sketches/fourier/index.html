@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+	<title>Fourier Series</title>
+    <link rel="icon" type="image/png" href="../../sakura.webp">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
+	<script type="text/javascript" src="raphael.js"></script>
+	<script type="text/javascript" src="SVGParser.js"></script>
+	<script type="text/javascript" src="transform.js"></script>
+	<script type="text/javascript" src="pi.js"></script>
+	<script type="text/javascript" src="santos.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/sketch.css">
+</head>
+
+<body>
+	<div id="sketch">
+		<div id="canvas"></div>
+		<div id="controls" class="container-fluid">
+			<div class="row">
+                <label> Tamaño: </label><input id="size" type="range" min="0.01" max="5" value="1.5" step="0.01">
+			</div>
+            <div class="row">
+                <label> Dibujo: </label>
+                <select id="svg-file" onchange="setup()">
+                    <option value="pi.svg">pi.svg</option>
+                    <option value="santos.svg">santos.svg</option>
+                </select>
+		</div>
+	</div>
+    <div id="sketch-shadow"></div>
+    <div id="side-panel">
+        <div id="handle">
+            <img src="../../img/left-arrow.jpg" width=100px></img>
+        </div>
+        <div id="descripcion">
+            <p>
+            Fourier, ay Fourier! Acá les traigo un par de curvas con formas divertidas y complejas. Si pensamos en una partícula o la punta de un lápiz que va recorriendo la curva, podemos describirla como una función matemática que, a un tiempo dado, le asigna un punto en el plano.
+            </p>
+            <p>
+            En el siglo XIX, Fourier descubrió que el comportamiento complejo de cualquier función se puede "imitar" usando oscilaciones simples. La descomposición es así: hay que imaginarse un círculo y una flecha que conecta el centro con el borde. Esa flecha va a ir girando a un ritmo constante (ej. 2 vueltas por segundo). Después, vamos a tomar la punta de esta flecha y dibujar un círculo que la tenga como centro. Vamos repitiendo ese proceso, donde cada círculo tiene su velocidad propia, pero constante. Ahora hay que imaginarse que en la última flecha hay atado un lapiz. Si vamos ajustando el tamaño de los círculos, podemos hacer que ese lapiz traze la curva que querramos.
+            </p>
+            <p>
+            Esta descomposición en oscilaciones más simples tiene varias variantes y esto permite que se aplique en varios contextos para simplificar el análisis de funciones complicadas.
+            </p>
+        </div>
+    </div>
+	<script type="text/javascript" src="../../js/comun.js"></script>
+</body>
+
+</html>
